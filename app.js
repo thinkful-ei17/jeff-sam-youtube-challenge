@@ -17,13 +17,23 @@ function renderResult(result) {
   console.log(result);
   return `
     <div>
-      <h2>
-      <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>${result.snippet.channelTitle}</h2>
-    
-      <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a>
+      <h2><a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>
+      ${result.snippet.channelTitle}</h2>
+
+      <div class="lightbox">
+        <img class="thumbnail" src="${result.snippet.thumbnails.medium.url}">
+        <div class="modal" class="hide">
+          <span class="close"> &times;</span>
+          <img class="modal-content" src="">
+        </div>   
+      </div>
     </div>
   `;
 }
+
+
+
+{/* <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a> */}
 
 function displayYouTubeSearchData(data) {
   console.log(data);
@@ -42,4 +52,14 @@ function watchSubmit() {
   });
 }
 
+function thumbnailClickListener() {
+  $('.js-search-results').on('click', '#thumbnail', function(event) {
+    let source = $(this).attr('src');
+    console.log($(this).attr('src'));
+    $('.modal-content').attr('src', source);
+    $('.modal').show();
+  });
+}
+
 $(watchSubmit);
+$(thumbnailClickListener);
