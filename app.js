@@ -1,28 +1,32 @@
 'use strict';
 
-const GITHUB_SEARCH_URL = 'https://api.github.com/search/repositories';
+const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 function getDataFromApi(searchTerm, callback) {
   const query = {
-    q: `${searchTerm} in:name`,
-    per_page: 5
+    q: `${searchTerm}`,
+    per_page: 5,
+    part: 'snippet',
+    key: 'AIzaSyB7SZee8z4v5Ij9xDi3PTKAsZrQ6111aCc',
   };
-  $.getJSON(GITHUB_SEARCH_URL, query, callback);
+  $.getJSON(YOUTUBE_SEARCH_URL, query, callback);
 }
+
+// in:name
 
 function renderResult(result) {
   console.log(result);
   return `
     <div>
       <h2>
-      <a class="js-result-name" href="${result.html_url}" target="_blank">${result.name}</a> by <a class="js-user-name" href="${result.owner.html_url}" target="_blank">${result.owner.login}</a></h2>
-      <p>Number of watchers: <span class="js-watchers-count">${result.watchers_count}</span></p>
-      <p>Number of open issues: <span class="js-issues-count">${result.open_issues}</span></p>
+      <a class="js-result-name" href="" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>${result.snippet.channelTitle}</h2>
+    
+      <img src="${result.snippet.thumbnails.medium.url}">
     </div>
   `;
 }
 
-function displayGitHubSearchData(data) {
+function displayYouTubeSearchData(data) {
   console.log(data);
   const results = data.items.map((item, index) => renderResult(item));
   $('.js-search-results').html(results);
@@ -35,7 +39,7 @@ function watchSubmit() {
     const searchTerm = searchTarget.val();
     // clear out the input
     searchTarget.val('');
-    getDataFromApi(searchTerm, displayGitHubSearchData);
+    getDataFromApi(searchTerm, displayYouTubeSearchData);
   });
 }
 
