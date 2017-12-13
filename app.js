@@ -21,9 +21,9 @@ function renderResult(result) {
       ${result.snippet.channelTitle}</h2>
 
       <div class="lightbox">
-        <img class="thumbnail" src="${result.snippet.thumbnails.medium.url}">
+        <img class="thumbnail js-thumbnail" src="${result.snippet.thumbnails.medium.url}">
         <div class="modal" class="hide">
-          <span class="close"> &times; </span>
+          <span class="close js-close"> &times; </span>
           <img class="modal-content" src="">
         </div>   
       </div>
@@ -53,7 +53,7 @@ function watchSubmit() {
 }
 
 function thumbnailClickListener() {
-  $('.js-search-results').on('click', '.thumbnail', function(event) {
+  $('.js-search-results').on('click', '.js-thumbnail', function(event) {
     let source = $(this).attr('src');
     console.log($(this).attr('src'));
     $('.modal-content').attr('src', source);
@@ -61,5 +61,13 @@ function thumbnailClickListener() {
   });
 }
 
+function lightBoxCloseListener() {
+  $('.js-search-results').on('click', '.js-close', function(event) {
+    $('.modal').hide();
+  });
+}
+
+
 $(watchSubmit);
 $(thumbnailClickListener);
+$(lightBoxCloseListener);
