@@ -7,6 +7,7 @@ function getDataFromApi(searchTerm, callback) {
   const query = {
     q: searchTerm,
     per_page: 5,
+    pageToken: '',
     part: 'snippet',
     key: 'AIzaSyB7SZee8z4v5Ij9xDi3PTKAsZrQ6111aCc',
   };
@@ -67,6 +68,17 @@ function lightBoxCloseListener() {
   });
 }
 
+/*Previous event click listener
+  1. When previous is clicked, retrieve the current array objects (data)
+  2. Set pageToken to result.previousPageToken in our query
+  3. Call getDataFromApi again
+*/
+
+/*Next event click listener 
+  1. When next is clicked, retrieve the current array objects (data)
+  2. Set string value of pageToken to string value of result.nextPageToken in our query
+  3. Call getDataFromApi again
+*/
 
 $(watchSubmit);
 $(thumbnailClickListener);
