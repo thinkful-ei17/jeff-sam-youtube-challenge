@@ -2,6 +2,10 @@ body {
     padding-top: 50px;
   }
 
+h2 {
+  display: inline-block;
+}
+
 .modal {
     display: none;
     position: fixed;

@@ -17,8 +17,10 @@ function renderResult(result) {
   console.log(result);
   return `
     <div>
-      <h2><a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>
-      ${result.snippet.channelTitle}</h2>
+
+      <h2><a class="" href="https://www.youtube.com/channel/${result.snippet.channelId}" target="_blank">${result.snippet.channelTitle}</a> :  
+      </h2><span><a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">  ${result.snippet.title}</a></span>
+   
 
       <div class="lightbox">
         <img class="thumbnail js-thumbnail" src="${result.snippet.thumbnails.medium.url}">
@@ -31,9 +33,7 @@ function renderResult(result) {
   `;
 }
 
-
-
-{/* <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a> */}
+/* <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a> */
 
 function displayYouTubeSearchData(data) {
   console.log(data);
