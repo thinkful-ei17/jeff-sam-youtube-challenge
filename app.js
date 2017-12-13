@@ -3,11 +3,16 @@
 
 const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
+let nextPageTokenValue = '';
+let previousPageTokenValue = '';
+let pageTokenValue = '';
+let searchTerm = '';
+
 function getDataFromApi(searchTerm, callback) {
   const query = {
     q: searchTerm,
-    per_page: 5,
-    pageToken: '',
+    maxResults: 5,
+    pageToken: pageTokenValue,
     part: 'snippet',
     key: 'AIzaSyB7SZee8z4v5Ij9xDi3PTKAsZrQ6111aCc',
   };
@@ -37,6 +42,8 @@ function renderResult(result) {
 /* <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a> */
 
 function displayYouTubeSearchData(data) {
+  nextPageTokenValue = data.nextPageToken;
+  previousPageTokenValue = data.prevPageToken;
   console.log(data);
   const results = data.items.map((item, index) => renderResult(item));
   $('.js-search-results').html(results);
@@ -46,7 +53,7 @@ function watchSubmit() {
   $('.js-search-form').submit(event => {
     event.preventDefault();
     const searchTarget = $(event.currentTarget).find('.js-query');
-    const searchTerm = searchTarget.val();
+    searchTerm = searchTarget.val();
     // clear out the input
     searchTarget.val('');
     getDataFromApi(searchTerm, displayYouTubeSearchData);
@@ -68,18 +75,22 @@ function lightBoxCloseListener() {
   });
 }
 
-/*Previous event click listener
-  1. When previous is clicked, retrieve the current array objects (data)
-  2. Set pageToken to result.previousPageToken in our query
-  3. Call getDataFromApi again
-*/
+function previousButtonClickListener() {
+  $('.js-previous-btn').click(function(event){
+    pageTokenValue = previousPageTokenValue;
+    getDataFromApi(searchTerm, displayYouTubeSearchData);
+  });
+}
 
-/*Next event click listener 
-  1. When next is clicked, retrieve the current array objects (data)
-  2. Set string value of pageToken to string value of result.nextPageToken in our query
-  3. Call getDataFromApi again
-*/
+function nextButtonClickListener() {
+  $('.js-next-btn').click(function(event){
+    pageTokenValue = nextPageTokenValue;
+    getDataFromApi(searchTerm, displayYouTubeSearchData);
+  });
+}
 
 $(watchSubmit);
 $(thumbnailClickListener);
 $(lightBoxCloseListener);
+$(nextButtonClickListener);
+$(previousButtonClickListener);
