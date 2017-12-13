@@ -1,10 +1,11 @@
 'use strict';
+/* global $ */
 
 const YOUTUBE_SEARCH_URL = 'https://www.googleapis.com/youtube/v3/search';
 
 function getDataFromApi(searchTerm, callback) {
   const query = {
-    q: `${searchTerm}`,
+    q: searchTerm,
     per_page: 5,
     part: 'snippet',
     key: 'AIzaSyB7SZee8z4v5Ij9xDi3PTKAsZrQ6111aCc',
@@ -12,16 +13,14 @@ function getDataFromApi(searchTerm, callback) {
   $.getJSON(YOUTUBE_SEARCH_URL, query, callback);
 }
 
-// in:name
-
 function renderResult(result) {
   console.log(result);
   return `
     <div>
       <h2>
-      <a class="js-result-name" href="" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>${result.snippet.channelTitle}</h2>
+      <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank">${result.snippet.title}</a> by <a class="js-user-name" href="" target="_blank"></a>${result.snippet.channelTitle}</h2>
     
-      <img src="${result.snippet.thumbnails.medium.url}">
+      <a class="js-result-name" href="https://www.youtube.com/watch?v=${result.id.videoId}" target="_blank"><img src="${result.snippet.thumbnails.medium.url}"></a>
     </div>
   `;
 }
